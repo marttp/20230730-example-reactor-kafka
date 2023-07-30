@@ -1,6 +1,8 @@
 package dev.tpcoder.contentdelivery.domain.course
 
 data class ProgressEvent(
-    val title: String,
-    val description: String
+    val courseId: Long,
+    val userId: Long,
+    val sectionId: Long,
+    val status: CourseStatusEnum
 )

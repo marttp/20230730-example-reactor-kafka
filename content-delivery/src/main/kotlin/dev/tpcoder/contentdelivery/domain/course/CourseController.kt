@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import dev.tpcoder.contentdelivery.configuration.properties.KafkaChannelProperties
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.slf4j.LoggerFactory
-import org.springframework.util.DigestUtils
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -16,19 +16,40 @@ import java.time.Instant
 import java.util.*
 
 @RestController
-@RequestMapping("/examples")
-class ExampleController(
+@RequestMapping("/courses")
+class CourseController(
     private val objectMapper: ObjectMapper,
     private val kafkaSender: KafkaSender<String, ByteArray>,
     private val kafkaChannelProperties: KafkaChannelProperties
 ) {
 
-    private val logger = LoggerFactory.getLogger(ExampleController::class.java)
+    private val logger = LoggerFactory.getLogger(CourseController::class.java)
 
-    @PostMapping
+    @GetMapping
+    fun getAllCourses(): List<Course> {
+        return listOf(
+            Course(
+                id = 1,
+                title = "Backend development in Java",
+                description = "Backend development for people who want to be Java developers",
+                section = listOf(
+                    Section(
+                        id = 1,
+                        title = "Introduction to Java"
+                    ),
+                    Section(
+                        id = 2,
+                        title = "Spring Boot"
+                    )
+                )
+            )
+        )
+    }
+
+    @PostMapping("/progress")
     fun send(@RequestBody body: ProgressEvent): Mono<Void> {
         val id = UUID.randomUUID()
-        val key = DigestUtils.md5DigestAsHex(id.toString().toByteArray())
+        val key = id.toString()
         val payload = objectMapper.writeValueAsBytes(
             KafkaPayload(
                 id = id.toString(),
@@ -39,7 +60,7 @@ class ExampleController(
             kafkaChannelProperties.topic,
             null,
             Instant.now().toEpochMilli(),
-            key,
+            key, // Kafka Message key for idempotency
             payload,
             null
         )
