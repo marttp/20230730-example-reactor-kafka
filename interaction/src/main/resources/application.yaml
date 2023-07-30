@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: kafka-project-template
+
+
+communication-channel:
+  kafka:
+    # You can split to Producer/Consumer configuration depend on your needs
+    topic: interest.topic
+    bootstrap-servers: localhost:9092
+    client-id: application
+    retry-backoff-ms: 1000
+    request-timeout-ms: 30000
+    # Receiver Configuration
+    group-id: example
+    auto-offset-reset: earliest
+    max-poll-records: 250
+    max-poll-interval-ms: 300000
+    session-timeout-ms: 10000
+    heartbeat-interval-ms: 3000
+    commit-batch-size: 0
+    commit-interval-ms: 5000
+    auto-commit-interval-ms: 5000
+    # Publisher Configuration
+    compression-type: lz4  # gzip, snappy, lz4, zstd
+    acks: all
+    retries: 2000
+    max-request-size: 1049600
+    reconnect-backoff-ms: 50
+    batch-size: 16384
+    buffer-memory: 33554432
+    linger-ms: 5
+
+logging:
+  level:
+    dev.tpcoder.kafkaprojecttemplate: DEBUG
