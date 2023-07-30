@@ -8,15 +8,16 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 import reactor.core.Disposable
 import reactor.core.Disposables
+import reactor.core.publisher.Mono
 import reactor.kafka.receiver.KafkaReceiver
 
 @Service
-class ExampleReceiverWorker(
+class CourseProgressReceiverWorker(
     private val objectMapper: ObjectMapper,
     @Qualifier("interestTopicReceiver") private val kafkaReceiver: KafkaReceiver<String, ByteArray>
 ) {
 
-    private val logger = LoggerFactory.getLogger(ExampleReceiverWorker::class.java)
+    private val logger = LoggerFactory.getLogger(CourseProgressReceiverWorker::class.java)
     private val disposables = Disposables.composite()
 
     @PostConstruct
@@ -34,14 +35,22 @@ class ExampleReceiverWorker(
     fun receiver(): Disposable {
         return kafkaReceiver.receive()
             .doOnNext { logger.info("Key : ${it.key()}") }
-            .subscribe {
+            // Don't subscribe on this step since it will load all the message to workload at once
+            // Take advantage of Backpressure
+            .flatMap {
                 val payload = objectMapper.readValue(
                     it.value(),
                     KafkaPayload::class.java
                 )
                 logger.info("Received payload : $payload")
+                Mono.just(it)
+            }
+            .doOnNext {
+                // Acknowledge the message. The offset will be committed automatically based on interval
                 it.receiverOffset().acknowledge()
             }
+            // Subscribe this step as the last step
+            .subscribe()
     }
 
 }
