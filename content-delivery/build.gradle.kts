@@ -1,3 +1,4 @@
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -59,4 +60,15 @@ tasks.withType<Test> {
 	jvmArgs(
 		"--add-opens", "java.base/java.lang.reflect=ALL-UNNAMED"
 	)
+	val os: OperatingSystem = DefaultNativePlatform.getCurrentOperatingSystem()
+	when {
+		os.isLinux -> {
+			val uid = ProcessBuilder("id", "-u").start().inputStream.reader().readText().trim()
+			environment("DOCKER_HOST", "unix:///run/user/$uid/podman/podman.sock")
+		}
+		os.isMacOsX -> {
+			environment("DOCKER_HOST", "unix:///tmp/podman.sock")
+		}
+	}
+	environment("TESTCONTAINERS_RYUK_DISABLED", "true")
 }

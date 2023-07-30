@@ -33,4 +33,4 @@ communication-channel:
 
 logging:
   level:
-    dev.tpcoder.kafkaprojecttemplate: DEBUG
+    dev.tpcoder.contentdelivery: DEBUG
