@@ -18,10 +18,6 @@ This is the template project, so you can use it as a base for your project.
 2. If you work with podman, you can use podman compose
    ```shell
    cd local-kafka
-   podman image pull confluentinc/cp-zookeeper:6.0.14
-   podman image pull confluentinc/cp-kafka:6.0.14
-   podman image pull provectuslabs/kafka-ui
-   
    podman-compose up -d
    ``` 
 3. Run Content Delivery service (Difference terminal if needed)
