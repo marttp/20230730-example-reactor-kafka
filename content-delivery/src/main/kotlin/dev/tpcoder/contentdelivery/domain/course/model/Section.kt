@@ -1,4 +1,4 @@
-package dev.tpcoder.contentdelivery.domain.course
+package dev.tpcoder.contentdelivery.domain.course.model
 
 data class Section(
     val id: Long,

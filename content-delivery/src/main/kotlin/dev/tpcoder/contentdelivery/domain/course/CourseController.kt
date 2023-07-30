@@ -2,6 +2,10 @@ package dev.tpcoder.contentdelivery.domain.course
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import dev.tpcoder.contentdelivery.configuration.properties.KafkaChannelProperties
+import dev.tpcoder.contentdelivery.domain.course.model.Course
+import dev.tpcoder.contentdelivery.domain.course.model.KafkaPayload
+import dev.tpcoder.contentdelivery.domain.course.model.ProgressEvent
+import dev.tpcoder.contentdelivery.domain.course.model.Section
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping

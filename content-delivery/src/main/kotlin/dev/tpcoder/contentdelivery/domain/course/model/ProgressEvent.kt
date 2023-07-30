@@ -1,4 +1,6 @@
-package dev.tpcoder.contentdelivery.domain.course
+package dev.tpcoder.contentdelivery.domain.course.model
+
+import dev.tpcoder.contentdelivery.domain.course.CourseStatusEnum
 
 data class ProgressEvent(
     val courseId: Long,
