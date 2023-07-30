@@ -34,6 +34,7 @@ class CourseProgressReceiverWorker(
 
     fun receiver(): Disposable {
         return kafkaReceiver.receive()
+            // .delayElements(Duration.ofSeconds(20))
             .doOnNext { logger.info("Key : ${it.key()}") }
             // Don't subscribe on this step since it will load all the message to workload at once
             // Take advantage of Backpressure
