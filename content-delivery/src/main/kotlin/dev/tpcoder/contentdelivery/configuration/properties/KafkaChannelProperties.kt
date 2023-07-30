@@ -7,10 +7,10 @@ data class KafkaChannelProperties(
     val topic: String,
     val bootstrapServers: String,
     val clientId: String,
-    val groupId: String,
+
     val retryBackoffMs: Int = 1000,
     val requestTimeoutMs: Int = 30000,
-    val autoOffsetReset: String = "earliest",
+
     val compressionType: String,
     val acks: String = "all",
     val retries: Int = 2000,
@@ -19,12 +19,4 @@ data class KafkaChannelProperties(
     val batchSize: Int = 16384,
     val bufferMemory: Int = 33554432,
     val lingerMs: Int = 5,
-
-    val maxPollRecords: Int = 250,
-    val maxPollIntervalMs: Int = 300_000,
-    val sessionTimeoutMs: Int = 10_000,
-    val heartbeatIntervalMs: Int = 3000,
-    val autoCommitIntervalMs: Int = 5000,
-    val commitBatchSize: Int = 0,
-    val commitIntervalMs: Long = 5000L
 )

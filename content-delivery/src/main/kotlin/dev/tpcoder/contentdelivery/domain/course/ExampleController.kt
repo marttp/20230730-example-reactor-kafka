@@ -26,7 +26,7 @@ class ExampleController(
     private val logger = LoggerFactory.getLogger(ExampleController::class.java)
 
     @PostMapping
-    fun send(@RequestBody body: ExampleMessage): Mono<Void> {
+    fun send(@RequestBody body: ProgressEvent): Mono<Void> {
         val id = UUID.randomUUID()
         val key = DigestUtils.md5DigestAsHex(id.toString().toByteArray())
         val payload = objectMapper.writeValueAsBytes(

@@ -21,15 +21,6 @@ communication-channel:
     commit-batch-size: 0
     commit-interval-ms: 5000
     auto-commit-interval-ms: 5000
-    # Publisher Configuration
-    compression-type: lz4  # gzip, snappy, lz4, zstd
-    acks: all
-    retries: 2000
-    max-request-size: 1049600
-    reconnect-backoff-ms: 50
-    batch-size: 16384
-    buffer-memory: 33554432
-    linger-ms: 5
 
 logging:
   level:
