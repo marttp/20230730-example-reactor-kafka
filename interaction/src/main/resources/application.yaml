@@ -6,7 +6,7 @@ spring:
 communication-channel:
   kafka:
     # You can split to Producer/Consumer configuration depend on your needs
-    topic: interest.topic
+    topic: course.tracking.progress
     bootstrap-servers: localhost:9092
     client-id: application
     retry-backoff-ms: 1000
